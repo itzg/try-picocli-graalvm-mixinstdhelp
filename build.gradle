@@ -1,0 +1,38 @@
+plugins {
+    id 'java'
+    id 'org.graalvm.buildtools.native' version '0.9.25'
+
+}
+
+group = 'me.itzg'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+graalvmNative {
+    toolchainDetection = true
+    binaries {
+        main {
+            mainClass = 'app.Application'
+            javaLauncher = javaToolchains.launcherFor {
+                languageVersion = JavaLanguageVersion.of(17)
+                vendor = JvmVendorSpec.matching("GraalVM")
+            }
+        }
+    }
+}
+
+dependencies {
+    def picocliVersion = '4.7.5'
+    implementation "info.picocli:picocli:${picocliVersion}"
+    annotationProcessor "info.picocli:picocli-codegen:${picocliVersion}"
+
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}
