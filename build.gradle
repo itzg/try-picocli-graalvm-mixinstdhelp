@@ -16,13 +16,6 @@ graalvmNative {
     binaries {
         main {
             mainClass = 'app.Application'
-
-            javaLauncher = environmentVariables.getting('GRAALVM_HOME').map { null }.orElse(
-                    javaToolchains.launcherFor {
-                        languageVersion = JavaLanguageVersion.of(17)
-                        vendor = JvmVendorSpec.matching("GraalVM")
-                    }
-            )
         }
     }
 }
